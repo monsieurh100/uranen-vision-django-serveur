@@ -24,9 +24,9 @@ class ArticleSerializer(serializers.ModelSerializer):
         model=Article
         fields='__all__'
 
-class VenteSerializer(serializers.ModelSerializer):
+class StockSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Vente
+        model=Stock
         fields='__all__'
 
 
@@ -129,11 +129,11 @@ class HistoryArticleSerializer(serializers.ModelSerializer):
         model = Article.history.model
         fields ='__all__'
 
-class HistoryVenteSerializer(serializers.ModelSerializer):
+class HistoryStockSerializer(serializers.ModelSerializer):
     history_user = serializers.StringRelatedField()
     history_type = serializers.CharField(source='get_history_type_display')
     class Meta:
-        model = Vente.history.model
+        model = Stock.history.model
         fields ='__all__'
 
 class HistoryPaiementSerializer(serializers.ModelSerializer):

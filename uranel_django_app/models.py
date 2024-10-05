@@ -173,7 +173,7 @@ class Categorie(models.Model):
 
 
 class Article(models.Model):
-    libelle_article=models.CharField( max_length=50)
+    libelle_article=models.CharField( max_length=150)
     categorie=models.ForeignKey(Categorie,on_delete=models.CASCADE)
     prix=models.FloatField()
     # history = AuditlogHistoryField()
@@ -189,13 +189,14 @@ class Article(models.Model):
         return reverse("Article_detail", kwargs={"pk": self.pk})
 
 
-class Vente(models.Model):
+class Stock(models.Model):
     dates_stock=models.DateField( auto_now_add=True)
     numero_facture=models.CharField(max_length=50)
     user=models.ForeignKey(User, on_delete=models.CASCADE)
     site=models.ForeignKey(Group,on_delete=models.CASCADE)
-    client=models.ForeignKey(Client,on_delete=models.CASCADE)
+    client=models.ForeignKey(Client,on_delete=models.CASCADE,null=True, blank=True)
     article=models.ForeignKey("Article", on_delete=models.CASCADE)
+    Type_operation=models.ForeignKey(Type_operation,on_delete=models.CASCADE)
     quantite=models.FloatField()
     montant_fixe=models.FloatField()
     prix_convenu=models.FloatField()
@@ -299,7 +300,6 @@ class Paiement(models.Model):
     dates_paiement=models.DateField( auto_now_add=True)
     site=models.ForeignKey(Group, on_delete=models.CASCADE)
     user=models.ForeignKey(User, on_delete=models.CASCADE)
-
     client=models.ForeignKey(Client, on_delete=models.CASCADE)
     facture=models.CharField(max_length=50)
     montant=models.FloatField()
@@ -340,7 +340,7 @@ class stock_autre(models.Model):
 
 auditlog.register(Client)
 auditlog.register(Article)
-auditlog.register(Vente)
+auditlog.register(Stock)
 
 
 auditlog.register(Consultation)
