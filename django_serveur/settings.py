@@ -26,12 +26,15 @@ SECRET_KEY = 'django-insecure-d7xs%-oc6542l6emujqor6sx*=0z1+0no)o0p1w9=v!l!f_pwg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'https://git.heroku.com/uranelvision.git','127.0.0.1'
+    ]
 
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Ajoutez l'URL du front-end ou toute origine autorisée
     "http://localhost:8000",
+    'https://git.heroku.com/uranelvision.git'
 ]
 
 # Application definition
