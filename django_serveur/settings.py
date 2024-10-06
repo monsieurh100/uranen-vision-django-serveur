@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-
+import django_heroku
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-d7xs%-oc6542l6emujqor6sx*=0z1+0no)o0p1w9=v!l!f_pwg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -62,10 +63,12 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     
 ]
 
 ROOT_URLCONF = 'django_serveur.urls'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 TEMPLATES = [
     {
@@ -89,14 +92,16 @@ WSGI_APPLICATION = 'django_serveur.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'uranel.sqlite3',
-    }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'uranel.sqlite3',
+#     }
+# }
+
+DATABASES={
+    'default':dj_database_url.config()
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -169,3 +174,5 @@ REST_FRAMEWORK = {
         # ou 'rest_framework_simplejwt.authentication.JWTAuthentication' si vous utilisez JWT
     ],
 }
+
+django_heroku.settings(locals())
