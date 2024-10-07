@@ -34,7 +34,8 @@ ALLOWED_HOSTS = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Ajoutez l'URL du front-end ou toute origine autorisée
     "http://localhost:8000",
-    'https://git.heroku.com/uranelvision.git'
+    # 'https://git.heroku.com/uranelvision.git'
+    'https://uranelvision.herokuapp.com',
 ]
 
 # Application definition
