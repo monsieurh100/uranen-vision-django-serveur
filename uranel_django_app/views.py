@@ -45,7 +45,11 @@ class UserViewSet(viewsets.ModelViewSet):
             # return Response({"message":" cette methode n'est pas autorisée"}, status=status.HTTP_405_METHOD_NOT_ALLOWED )
     def destroy(self,request,*args,**kwargs):
             return Response({"message":" cette methode n'est pas autorisée"}, status=status.HTTP_405_METHOD_NOT_ALLOWED )
-
+    def perform_create(self, serializer):
+        user = serializer.save()
+        # Assurez-vous que le mot de passe est haché
+        user.set_password(user.password)
+        user.save()
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
