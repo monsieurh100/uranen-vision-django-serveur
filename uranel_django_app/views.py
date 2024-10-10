@@ -37,17 +37,16 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     # permission_classes = [IsAuthenticated]
     # authentication_classes = [TokenAuthentication]
-    # def create(self,request,*args,**kwargs):
-    #     return Response({"message":" cette methode n'est pas autorisée"}, status=status.HTTP_405_METHOD_NOT_ALLOWED )
-    # # def update(self,request,*args,**kwargs):
-            # return Response({"message":" cette methode n'est pas autorisée"}, status=status.HTTP_405_METHOD_NOT_ALLOWED )
+    def create(self,request,*args,**kwargs):
+        return Response({"message":" cette methode n'est pas autorisée"}, status=status.HTTP_405_METHOD_NOT_ALLOWED )
+    # def update(self,request,*args,**kwargs):
+    #         return Response({"message":" cette methode n'est pas autorisée"}, status=status.HTTP_405_METHOD_NOT_ALLOWED )
     # def partial_update(self,request,*args,**kwargs):
             # return Response({"message":" cette methode n'est pas autorisée"}, status=status.HTTP_405_METHOD_NOT_ALLOWED )
     def destroy(self,request,*args,**kwargs):
             return Response({"message":" cette methode n'est pas autorisée"}, status=status.HTTP_405_METHOD_NOT_ALLOWED )
     def perform_create(self, serializer):
         user = serializer.save()
-        # Assurez-vous que le mot de passe est haché
         user.set_password(user.password)
         user.save()
 class ClientViewSet(viewsets.ModelViewSet):
@@ -632,9 +631,9 @@ class ManagementViewSet(viewsets.ModelViewSet):
     def user_list(self,request):
         site_id=request.query_params.get('site_id',None)
         if int(site_id)>0:
-            user=User.objects.values("id","username","groups__name","is_active").filter(groups=site_id,is_active=True).order_by('-is_active', 'username')
+            user=User.objects.values("id","username",'password',"groups__name","is_active").filter(groups=site_id,is_active=True).order_by('-is_active', 'username')
         elif int(site_id)==0:
-            user=User.objects.values("id","username","groups__name","is_active").filter(is_active=True).order_by('-id','username')
+            user=User.objects.values("id","username",'password',"groups__name","is_active").filter(is_active=True).order_by('-id','username')
         return Response(user)
     
 class InformationViewSet(viewsets.ModelViewSet):

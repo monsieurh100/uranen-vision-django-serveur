@@ -7,13 +7,7 @@ from simple_history.utils import update_change_reason
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'email']
-        extra_kwargs = {'password': {'write_only': True}}
-
-    def create(self, validated_data):
-        # Utiliser la méthode `create_user` pour s'assurer que le mot de passe est haché
-        user = User.objects.create_user(**validated_data)
-        return user
+        fields = '__all__'
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model=Group

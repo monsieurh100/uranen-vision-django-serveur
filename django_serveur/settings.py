@@ -9,12 +9,17 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
+from urllib.parse import urlparse
 from pathlib import Path
 import django_heroku
-import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+
+
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -24,10 +29,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-d7xs%-oc6542l6emujqor6sx*=0z1+0no)o0p1w9=v!l!f_pwg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
-    'https://uranelvision.herokuapp.com','127.0.0.1'
+    'https://uranelvision.herokuapp.com','http://localhost:8000'
     ]
 
 
@@ -71,6 +76,13 @@ MIDDLEWARE = [
     
 ]
 
+
+
+
+
+
+
+
 ROOT_URLCONF = 'django_serveur.urls'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
@@ -96,16 +108,42 @@ WSGI_APPLICATION = 'django_serveur.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'uranel_vision_database',        # Le nom de votre base de données
+#         'USER': 'postgres',        # Nom de l'utilisateur PostgreSQL
+#         'PASSWORD': 'henri2002',# Mot de passe de l'utilisateur PostgreSQL
+#         'HOST': 'localhost',           # L'hôte, généralement 'localhost' en local
+#         'PORT': '5432',                # Le port PostgreSQL (par défaut 5432)
+#     }
+# }
+
+
+
+
+
+DATABASE_URL = os.environ.get('JAWSDB_URL', 'mysql://prqnjrfpny9vpbqx:cyogwgyoaf2a0bhk@ipobfcpvprjpmdo9.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/sb7n65bgzso8wjo8')
+
+url = urlparse(DATABASE_URL)
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'uranel.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': url.path[1:],  # Suppression du /
+        'USER': url.username,
+        'PASSWORD': url.password,
+        'HOST': url.hostname,
+        'PORT': url.port,
     }
 }
 
-# DATABASES={
-#     'default':dj_database_url.config()
-# }
+
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -175,7 +213,10 @@ CORS_ALLOW_CREDENTIALS = True
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-        # ou 'rest_framework_simplejwt.authentication.JWTAuthentication' si vous utilisez JWT
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication' # si vous utilisez JWT
+    ],
+     'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',          # Restreindre l'accès par défaut aux utilisateurs authentifiés
     ],
 }
 
