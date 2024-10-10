@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+from pickle import FALSE
 from urllib.parse import urlparse
 from pathlib import Path
 import django_heroku
@@ -29,7 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-d7xs%-oc6542l6emujqor6sx*=0z1+0no)o0p1w9=v!l!f_pwg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'https://uranelvision.herokuapp.com','http://localhost:8000'
